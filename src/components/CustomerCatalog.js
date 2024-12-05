@@ -3,6 +3,7 @@ import axios from 'axios';
 import CustomerTable from './CustomerTable';
 import CustomerModal from './CustomerModal';
 import CustomerActions from './CustomerActions';
+import { notify } from './Notification';
 import '../styles/CustomerCatalog.css';
 
 const API_URL = 'http://localhost:5000/api/customers';
@@ -47,32 +48,36 @@ const CustomerCatalog = () => {
     try {
       const response = await axios.post(API_URL, newCustomer);
       setCustomers([...customers, response.data]);
-      closeModal(); // Usando o método closeModal
+      notify('Item adicionado', 'success'); // Notificação de sucesso
+      closeModal();
     } catch (err) {
       setError('Erro ao adicionar cliente');
     }
   };
-
+  
   const handleEditCustomer = async (updatedCustomer) => {
     try {
       const response = await axios.put(`${API_URL}/${updatedCustomer.id}`, updatedCustomer);
       setCustomers(customers.map(customer => 
         customer.id === updatedCustomer.id ? response.data : customer
       ));
-      closeModal(); // Usando o método closeModal
+      notify('Item editado', 'success'); // Notificação de sucesso
+      closeModal();
     } catch (err) {
       setError('Erro ao atualizar cliente');
     }
   };
-
+  
   const handleDeleteCustomer = async (id) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
       setCustomers(customers.filter(customer => customer.id !== id));
+      notify('Item deletado', 'error'); // Notificação de erro
     } catch (err) {
       setError('Erro ao deletar cliente');
     }
   };
+  
 
   // Renderização com tratamento de carregamento e erros
   if (loading) return <div>Carregando...</div>;

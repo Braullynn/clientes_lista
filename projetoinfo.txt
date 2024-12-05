@@ -20,3 +20,5 @@ a ação de delete. (React Toastify)
 prompt: "Crie um popup no canto superior direito da tela para avisar sobre ações com clientes. A janela terá cor verde com fonte branca para "Item adicionado" e "Item editado", e cor vermelha com fonte branca para "Item deletado". Utilize o React Toastify para essa tarefa."
 
 se n der pra continuar na mesma janela, faz o chat ler todo o projeto e dps alterar inserindo o toastfy
+
+npm run start:backend
