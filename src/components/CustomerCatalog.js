@@ -3,6 +3,7 @@ import axios from 'axios';
 import CustomerTable from './CustomerTable';
 import CustomerModal from './CustomerModal';
 import CustomerActions from './CustomerActions';
+import SearchBar from './SearchBar'; // Importa o novo componente de busca
 import { notify } from './Notification';
 import '../styles/CustomerCatalog.css';
 
@@ -10,21 +11,35 @@ const API_URL = 'http://localhost:5000/api/customers';
 
 const CustomerCatalog = () => {
   const [customers, setCustomers] = useState([]);
+  const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Buscar clientes ao carregar o componente
   useEffect(() => {
     fetchCustomers();
   }, []);
 
+  useEffect(() => {
+    // Filtra os clientes sempre que o searchTerm muda
+    setFilteredCustomers(
+      customers.filter(customer =>
+        customer.nome.toLowerCase().includes(searchTerm.toLowerCase()) || // Busca pelo nome
+        customer.telefone.includes(searchTerm) || // Busca pelo telefone
+        customer.id.toString().includes(searchTerm) // Busca pelo ID
+      )
+    );
+  }, [searchTerm, customers]);
+
   const fetchCustomers = async () => {
     try {
       setLoading(true);
       const response = await axios.get(API_URL);
       setCustomers(response.data);
+      setFilteredCustomers(response.data); // Inicialmente, todos os clientes são mostrados
       setLoading(false);
     } catch (err) {
       setError('Erro ao buscar clientes');
@@ -86,9 +101,14 @@ const CustomerCatalog = () => {
   return (
     <div className="customer-catalog">
       <h1>Catálogo de Clientes</h1>
+
+      <SearchBar 
+        searchTerm={searchTerm} // Passa o termo de busca atual
+        onSearchChange={setSearchTerm} // Passa a função para atualizar o termo de busca
+      />
       
       <CustomerTable 
-        customers={customers} 
+        customers={filteredCustomers} // Passa os clientes filtrados para a tabela
         onEdit={openEditModal}
         onDelete={handleDeleteCustomer}
       />

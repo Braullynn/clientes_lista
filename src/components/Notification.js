@@ -4,8 +4,14 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // Função para mostrar a notificação
 export const notify = (message, type) => {
-  // O tipo pode ser 'success' ou 'error'
-  toast(message, { type });
+  const toastOptions = {
+    style: {
+      backgroundColor: type === 'error' ? '#c93232' : 'green', // fundo vermelho para erro
+      color: 'white', // fonte branca
+    },
+  };
+
+  toast(message, { type, ...toastOptions });
 };
 
 // Componente de contêiner para as notificações
