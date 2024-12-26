@@ -8,9 +8,55 @@ function createDatabaseConnection() {
     } else {
       console.log('Conexão com o banco de dados SQLite estabelecida com sucesso!.');
       createTable(db);
+      createUsersTable(db);
     }
   });
   return db;
+}
+
+// Função para criar a tabela de usuários se não existir
+function createUsersTable(db) {
+  const createTableQuery = `
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      login TEXT UNIQUE NOT NULL,
+      senha TEXT NOT NULL
+    )
+  `;
+
+  db.run(createTableQuery, (err) => {
+    if (err) {
+      console.error('Erro ao criar tabela de usuários:', err.message);
+    } else {
+      console.log('Tabela de usuários criada ou já existente.');
+      // Inserir usuário administrador se não existir
+      checkAndInsertAdminUser(db);
+    }
+  });
+}
+
+// Função para verificar e inserir o usuário administrador
+function checkAndInsertAdminUser(db) {
+  db.get('SELECT COUNT(*) AS count FROM users', (err, row) => {
+    if (err) {
+      console.error('Erro ao verificar usuários:', err.message);
+      return;
+    }
+
+    if (row.count === 0) {
+      const bcrypt = require('bcrypt');
+      const adminUser = { login: 'adm', senha: '0123456789' };
+      const hashedPassword = bcrypt.hashSync(adminUser.senha, 10); // Criptografa a senha
+
+      const stmt = db.prepare('INSERT INTO users (login, senha) VALUES (?, ?)');
+      stmt.run(adminUser.login, hashedPassword, (err) => {
+        if (err) {
+          console.error('Erro ao inserir usuário administrador:', err.message);
+        }
+      });
+      stmt.finalize();
+    }
+  });
 }
 
 // Função para criar tabela de clientes se não existir

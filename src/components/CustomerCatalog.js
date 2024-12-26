@@ -9,6 +9,17 @@ import '../styles/CustomerCatalog.css';
 
 const API_URL = 'http://localhost:5000/api/customers';
 
+// Configuração global para incluir o token JWT em todas as requisições
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token'); // Recupera o token do localStorage
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`; // Define o cabeçalho Authorization
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
 const CustomerCatalog = () => {
   const [customers, setCustomers] = useState([]);
   const [filteredCustomers, setFilteredCustomers] = useState([]);

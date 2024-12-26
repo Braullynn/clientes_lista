@@ -16,11 +16,13 @@ fui de de SQlite.
  toastfy inserido (para pop-ups)
 
  Prox. passo: 
-Deixar Popup de delete da cor vermelha com fonte branca.
-
-criar busca de clientes, conforme for digitando o nome, numero ou id, vao saindo os outros e fica so o qual se está buscando.
 
  criar uma tela de loguin, banco de dados para usuario, cache do navegador, encriptação do loguin.
+ resolver erros de loguin
+
+opção:
+criar uma pagina de loguin funcional em separado, e dps incrementar
+ao projeto👌️
 
 npm run start:backend
 npm run start (utilizar duas janelas de comando)

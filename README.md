@@ -13,3 +13,8 @@ directory: clientes_lista
 
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
+1.0.3
+Arquivo CustomerCatalog.js:
+Adicionamos um interceptor global do Axios para incluir o token JWT no cabeçalho Authorization em todas as requisições.
+Arquivo server.js:
+Ajustamos o middleware authenticateToken para verificar corretamente o cabeçalho Authorization e o token JWT
