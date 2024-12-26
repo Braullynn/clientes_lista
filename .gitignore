@@ -21,5 +21,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
- 
- projetoinfo.txt
+
+# Arquivos a serem ignorados
+projetoinfo.txt
+prompt-lista-clientes.txt
