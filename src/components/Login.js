@@ -20,15 +20,16 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+      <h2 className="text-3xl font-bold mb-6 text-gray-800">Login</h2>
+      <form onSubmit={handleLogin} className="w-full max-w-sm">
         <input
           type="text"
           placeholder="Login"
           value={login}
           onChange={(e) => setLogin(e.target.value)}
           required
+          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
         />
         <input
           type="password"
@@ -36,9 +37,10 @@ const Login = () => {
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
           required
+          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
         />
-        <button type="submit">Login</button>
-        <button type="button" onClick={() => navigate('/register')}>Cadastro</button>
+        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2">Login</button>
+        <button type="button" onClick={() => navigate('/register')} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Cadastro</button>
       </form>
     </div>
   );
